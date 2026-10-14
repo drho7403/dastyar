@@ -1,0 +1,10 @@
+<resources>
+    <color name="ic_bg">#3F51B5</color>
+    <color name="w_bg">#E3ECEC</color>
+    <color name="w_text">#123232</color>
+    <color name="w_sub">#5C7A7A</color>
+    <color name="w_accent">#2E7D7D</color>
+    <color name="w_on_accent">#FFFFFF</color>
+    <color name="w_divider">#22000000</color>
+    <color name="w_ring_track">#D8E6E6</color>
+</resources>
