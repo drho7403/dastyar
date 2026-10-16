@@ -63,8 +63,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 
-val titr = FontFamily(Font(R.font.lalezar_regular))
-val amiri = FontFamily(Font(R.font.amiri_regular, FontWeight.Normal), Font(R.font.amiri_bold, FontWeight.Bold))
+// Titr (bold display face): headings, tab labels, buttons.
+val titr = FontFamily(Font(R.font.titr_bold))
+// B Nazanin for body text; anywhere bold is requested in body text it switches to Titr.
+val nazanin = FontFamily(Font(R.font.bnazanin, FontWeight.Normal), Font(R.font.titr_bold, FontWeight.Bold))
 
 fun appTypography(): Typography {
     val b = Typography()
@@ -75,8 +77,8 @@ fun appTypography(): Typography {
         titleLarge = b.titleLarge.copy(fontFamily = titr), titleMedium = b.titleMedium.copy(fontFamily = titr),
         titleSmall = b.titleSmall.copy(fontFamily = titr), labelLarge = b.labelLarge.copy(fontFamily = titr),
         labelMedium = b.labelMedium.copy(fontFamily = titr), labelSmall = b.labelSmall.copy(fontFamily = titr),
-        bodyLarge = b.bodyLarge.copy(fontFamily = amiri), bodyMedium = b.bodyMedium.copy(fontFamily = amiri),
-        bodySmall = b.bodySmall.copy(fontFamily = amiri)
+        bodyLarge = b.bodyLarge.copy(fontFamily = nazanin), bodyMedium = b.bodyMedium.copy(fontFamily = nazanin),
+        bodySmall = b.bodySmall.copy(fontFamily = nazanin)
     )
 }
 
@@ -183,7 +185,7 @@ fun Home(
             tabNames.forEachIndexed { i, s ->
                 val on = tab == i
                 Text(
-                    s, fontSize = 13.sp,
+                    s, fontSize = 13.sp, fontFamily = titr,
                     color = if (on) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
