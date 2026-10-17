@@ -681,29 +681,40 @@ fun Bills(st: State, upd: (State) -> Unit) {
                 Column(Modifier.padding(12.dp)) {
                     Text("خلاصه‌ی این ماه", fontFamily = titr, fontSize = 15.sp)
                     Text("تعداد: ${fa(monthBills.size)}", fontSize = 13.sp)
-                    Text("مجموع: ${formatAmount(total)} تومان", fontSize = 13.sp)
-                    Text("پرداخت‌نشده: ${formatAmount(unpaid)} تومان", fontSize = 13.sp)
+                    Text("مجموع: ${formatAmount(total)}", fontSize = 13.sp)
+                    Text("پرداخت‌نشده: ${formatAmount(unpaid)}", fontSize = 13.sp)
                 }
             }
         }
         item { Button({ showAdd = true }, Modifier.fillMaxWidth()) { Text("➕ افزودن چک/قسط") } }
-        if (monthBills.isEmpty()) item { Text("موردی برای این ماه ثبت نشده", fontSize = 13.sp) }
-        items(monthBills) { b ->
-            val jd = jal(b.day)
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(b.done, { on -> upd(st.copy(bills = st.bills.map { if (it.id == b.id) it.copy(done = on) else it })) })
-                    Column(Modifier.weight(1f)) {
-                        Text(
-                            "${b.kind}" + (if (b.title.isNotBlank()) " ${b.title}" else "") + " ${formatAmount(b.amount)} تومان",
-                            fontFamily = titr, textDecoration = if (b.done) TextDecoration.LineThrough else null
-                        )
-                        Text("${DAYS[jd.dow]} ${fa(jd.d)} ${MONTHS[jd.m - 1]} ${fa(jd.y)}" + if (b.seriesId != null) " • بخشی از سری" else "", fontSize = 12.sp)
+        item {
+            Card(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(12.dp)) {
+                    Text("لیست این ماه", fontFamily = titr, fontSize = 16.sp)
+                    Spacer(Modifier.height(4.dp))
+                    if (monthBills.isEmpty()) Text("موردی برای این ماه ثبت نشده", fontSize = 13.sp)
+                    monthBills.forEach { b ->
+                        val jd = jal(b.day)
+                        Column {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(b.done, { on -> upd(st.copy(bills = st.bills.map { if (it.id == b.id) it.copy(done = on) else it })) })
+                                Column(Modifier.weight(1f)) {
+                                    Text(
+                                        "${b.kind}" + (if (b.title.isNotBlank()) " ${b.title}" else "") + " ${formatAmount(b.amount)}",
+                                        fontFamily = nazanin, fontSize = 17.sp, textDecoration = if (b.done) TextDecoration.LineThrough else null
+                                    )
+                                    Text(
+                                        "${DAYS[jd.dow]} ${fa(jd.d)} ${MONTHS[jd.m - 1]} ${fa(jd.y)}" + if (b.seriesId != null) " • بخشی از سری" else "",
+                                        fontFamily = nazanin, fontSize = 12.sp
+                                    )
+                                }
+                                TextButton({ editing = b }) { Text("✏️") }
+                                TextButton({ delTarget = b }) { Text("🗑") }
+                            }
+                            DividerLine()
+                        }
                     }
-                    TextButton({ editing = b }) { Text("✏️") }
-                    TextButton({ delTarget = b }) { Text("🗑") }
                 }
-                DividerLine()
             }
         }
     }
